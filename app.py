@@ -1,6 +1,8 @@
 import streamlit as st
 import pandas as pd
+from io import BytesIO
 
+st.set_page_config(page_title="Simulador de Fluxo de Caixa", layout="wide")
 st.title("💸 Simulador de Fluxo de Caixa")
 
 # Entradas de simulação
@@ -56,9 +58,8 @@ st.subheader("📊 Resultado do Fluxo de Caixa")
 st.dataframe(df.style.format("R$ {:,.2f}"))
 
 # Download
-from io import BytesIO
 output = BytesIO()
 with pd.ExcelWriter(output, engine='openpyxl') as writer:
     df.to_excel(writer, sheet_name='Fluxo de Caixa')
-    writer.save()
+
 st.download_button("📥 Baixar Excel", data=output.getvalue(), file_name="fluxo_caixa_simulado.xlsx")
